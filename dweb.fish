@@ -1,4 +1,4 @@
 # Defined in - @ line 1
-function dweb --wraps='docker compose exec -u1000:1000 web bash' --description 'alias dweb=docker compose exec -u1000:1000 web bash'
-  docker compose exec -u1000:1000 web bash $argv;
+function dweb --description 'Point current terminal to web app container shell'
+  docker compose exec -u(id -u):(id -g) web bash $argv;
 end
