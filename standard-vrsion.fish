@@ -1,0 +1,3 @@
+function standard-vrsion --wraps='docker run -u1000:1000 -v ./:/git -it --rm node:lts  bash' --wraps='docker run -u1000:1000 -v ./:/sv -it --rm node:lts  bash' --wraps='docker run -w /sv -u1000:1000 -v ./:/sv -it --rm node:lts  bash' --wraps='docker run -w /sv -u1000:1000 -v ./:/sv -it --rm node:lts  bash npx standard-version' --wraps='docker run -w /sv -u1000:1000 -v ./:/sv -it --rm node:lts npx standard-version' --description 'alias standard-vrsion=docker run -w /sv -u1000:1000 -v ./:/sv -it --rm node:lts npx standard-version'
+  docker run -w /sv -u1000:1000 -v ./:/sv -it --rm node:lts npx standard-version $argv; 
+end
