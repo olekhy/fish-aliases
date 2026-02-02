@@ -1,6 +1,6 @@
-function FS-bmp-to-png-scale
+function IMG-bmp-to-png-scale
     if test (count $argv) -lt 2
-        echo "❌ Usage: FS-bmp-to-png-scale <input.bmp> <resolution: hd|fhd|2k|4k>"
+        echo "❌ Usage: IMG-bmp-to-png-scale <input.bmp> <resolution: hd|fhd|2k|4k>"
         return 1
     end
 
@@ -27,6 +27,15 @@ function FS-bmp-to-png-scale
 
     set output (string replace -r '\.bmp$' '.png' -- $input)
 
-    ffmpeg -y -i $input -vf "scale='if(gt(a,{$width}/{$height}),{$width},-1)':'if(gt(a,{$width}/{$height}),-1,{$height})'" $output
+    # Ziel-Seitenverhältnis
+    set -l target_aspect (math "$width / $height")
+
+    set -l filter "scale=if(gt(a\\,$target_aspect)\\,$width\\,-1):if(gt(a\\,$target_aspect)\\,-1\\,$height)"
+
+    set -l cmd ffmpeg -hide_banner -v warning -y -i "$input" -vf "$filter" "$output"
+
+    printf '▶ %s\n' (string escape -- $cmd)
+    $cmd
+
     echo "✅ Converted: $input → $output"
 end

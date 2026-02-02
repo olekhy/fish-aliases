@@ -28,16 +28,18 @@ function IMG-boost-via-ii
         output=\"\$output_dir/\$rel_path\"
 
         mkdir -p \"\$(dirname \"\$output\")\"
-
+#-dn 1..3 3 max rauschen entfernen
+# -n realesr-general-x4v3
+# -n RealESRGAN_x2plus
         python /home/it/i/dev/olekhy/photo-realistica/Real-ESRGAN/inference_realesrgan.py \
             -i \"\$input\" \
             -o \"\$output\" \
-            -n RealESRGAN_x2plus \
+            -n realesr-general-x4v3 \
             --tile 32 \
             -s '$scale' \
-	    -dn 0.4 \
+            -dn 1 \
             --ext \"$ext\" \
-	    --suffix \"\"
-	'
+            --suffix \"\"
+    '
     "
 end

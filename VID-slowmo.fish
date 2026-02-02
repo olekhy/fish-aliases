@@ -72,9 +72,9 @@ function VID-slowmo --argument-names ext
         -pattern_type glob -i "*.$ext" \
         -vf $setpts \
         $mp4_codec \
-        -b:v 12M \
-        -preset faster \
-        -pix_fmt yuva420p \
+        -crf 0 \
+        -preset veryslow \
+        -pix_fmt yuv444p \
         -movflags +faststart \
         -threads $threads \
         "$file_name"

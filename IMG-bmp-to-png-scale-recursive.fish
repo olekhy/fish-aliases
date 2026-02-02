@@ -1,4 +1,4 @@
-function FS-bmp-to-png-recursive
+function IMG-bmp-to-png-scale-recursive
     if test (count $argv) -lt 1
         echo "❌ Usage: FS-bmp-to-png-recursive <resolution: hd|fhd|2k|4k> [path]"
         return 1
@@ -31,10 +31,16 @@ function FS-bmp-to-png-recursive
     for img in (find $search_path -type f -iname '*.bmp')
         set output (string replace -r '\.bmp$' '.png' -- $img)
         echo "🎞️  Converting $img → $output"
-        ffmpeg -y -i $img -vf "scale='if(gt(a,{$width}/{$height}),{$width},-1)':'if(gt(a,{$width}/{$height}),-1,{$height})'" $output
+        set -l target_aspect (math "$width / $height")
+
+        set -l filter "scale=if(gt(a\\,$target_aspect)\\,$width\\,-1):if(gt(a\\,$target_aspect)\\,-1\\,$height)"
+
+        set -l cmd ffmpeg -hide_banner -v warning -y -i "$img" -vf "$filter" "$output"
+
+        printf '▶ %s\n' (string escape -- $cmd)
+
+        $cmd
     end
 
     echo "✅ All .bmp files in '$search_path' converted to $res resolution."
 end
-
-

@@ -32,6 +32,6 @@ function VID-slideshow --description 'Erstellt eine Slideshow aus Bildern'
     echo "  Datei:         $output"
 
     ffmpeg -framerate $fps_in -pattern_type glob -i "$pattern" \
-        -c:v libx264 -r $fps_out -pix_fmt yuv420p "$output"
+        -crf 0 -c:v libx264 -r $fps_out -pix_fmt yuv444p -preset veryslow "$output"
 end
 
